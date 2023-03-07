@@ -1,0 +1,25 @@
+<div class="col-lg-10 mt-3">
+    <mat-card>
+        <mat-card-header>
+            <div mat-card-avatar class="example-header-image">
+            </div>
+            <mat-card-title>ZEUS LEARNING</mat-card-title>
+            <mat-card-subtitle>Jan 12, 2023</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>This card has divider and indeterminate progress as footer</p>
+            <p *ngIf="cardOpen"> The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog
+                from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was
+                originally bred for hunting.</p>
+            <p>
+                GO FROM HERE TO THERE 
+                JUST BY CLICKING ON THIS INK
+            </p>
+            <mat-divider></mat-divider>
+          </mat-card-content>
+        <mat-card-actions align="end">
+            <button mat-button *ngIf="!cardOpen" (click)="cardOpen = !cardOpen">See More</button>
+            <button mat-button *ngIf="cardOpen" (click)="cardOpen = !cardOpen">See Less</button>
+        </mat-card-actions>
+    </mat-card>
+</div>
