@@ -53,7 +53,6 @@ const signUp = async (req, res, next) => {
 
 const logIn = async (req, res, next) => {
   res.set("Access-Control-Allow-Origin", "*");
-  console.log(req.body);
   const { Email, Password,Role } = req.body;
 
   let existingUser;
@@ -63,8 +62,7 @@ const logIn = async (req, res, next) => {
   } catch (e) {
     console.log(e);
   }
-  console.log(existingUser);
-
+  
   if (!existingUser) {
     return res
       .status(202)

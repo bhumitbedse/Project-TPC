@@ -54,11 +54,15 @@ export class LoginComponent implements OnInit {
 
   onLoginSubmit() {
     if(this.loginForm.valid){
-      console.log(this.loginForm.value)
       this.authService.signin(this.loginForm.value)
       .subscribe(responseData=>{
         this.storageService.saveUser(responseData);
-        this.router.navigate(['student']);
+        if(this.storageService.getUser().Role === 'Admin'){
+          this.router.navigate(['admin']);
+        }
+        else{
+          this.router.navigate(['student']);
+        }
       })
     }
   }

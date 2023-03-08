@@ -2,17 +2,18 @@ const JobRole = require("../Models/JobRole");
 const mongoose = require("mongoose");
 
 const getAllJobRoles = async (req, res, next) => {
-  let role;
+  let roles;
   try {
-    role = await JobRole.find();
+    roles = await JobRole.find();
   } catch (err) {
     console.log(err);
   }
-  if (!role) {
+  if (!roles) {
     return res.status(404).json({ message: "JobRole are not found" });
   }
-  return res.status(200).json({ role });
+  return res.status(200).json({ roles });
 };
+
 
 const addNewJobRole = async (req, res, next) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -187,6 +188,7 @@ const deleteRole = async (req, res, next) => {
     },
   });
 };
+
 module.exports = {
   getAllJobRoles,
   addNewJobRole,
