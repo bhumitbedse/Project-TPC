@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser')
 const userRoute = require("./Routes/userRouter");
+const adminRoute = require('./Routes/adminRouter');
 
 require("./Config/db");
 require('dotenv').config();
@@ -19,6 +20,7 @@ app.use(cors({
   }))
 
 app.use('/api/user',userRoute);
+app.use('/api/admin',adminRoute);
 
 app.get('/',(req,res)=>{
     res.send("Hello");

@@ -19,7 +19,7 @@ const getAllAdmins = async (req, res, next) => {
 
 const addNewAdmin = async (req, res, next) => {
   res.set("Access-Control-Allow-Origin", "*");
-  const { Email, Password, Name, Designation, Mobile } = req.body;
+  let { Email, Password, Name, Designation, Mobile } = req.body;
 
   const UserType = "Admin";
   let user;
@@ -33,24 +33,25 @@ const addNewAdmin = async (req, res, next) => {
     }
 
     //encrypt password
-    Password = bcrypt.hashSync(Pass);
+    let EncrptPassword = bcrypt.hashSync(Password);
     const newUser = new User({
       Email,
-      Password,
+      EncrptPassword,
       UserType,
     });
 
     const session = await mongoose.startSession();
     session.startTransaction();
     user = await newUser.save();
-    const userId = user._id;
+    const UserID = user._id;
+    console.log("ID : "+UserID);
     const newAdmin = new Admin({
       Email,
-      Password,
+      EncrptPassword,
       Name,
       Designation,
       Mobile,
-      userId,
+      UserID
     });
     await newAdmin.save();
     session.commitTransaction();
@@ -81,7 +82,6 @@ const getAdminById = async (req, res, next) => {
   console.log("AdminID:" + adminID);
   try {
     admin = await Admin.find({ userId: adminID });
-    console.log(admin);
   } catch (e) {
     console.log("Exception: " + e);
     return res.status(400).json({
@@ -93,7 +93,6 @@ const getAdminById = async (req, res, next) => {
   }
 
   if (!admin) return res.status(500).json({ message: "Not Found !!" });
-
   return res.status(200).json({ success: true, admin });
 };
 
