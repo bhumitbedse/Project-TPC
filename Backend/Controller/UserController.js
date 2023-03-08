@@ -53,14 +53,18 @@ const signUp = async (req, res, next) => {
 
 const logIn = async (req, res, next) => {
   res.set("Access-Control-Allow-Origin", "*");
-  const { Email, Password } = req.body;
+  console.log(req.body);
+  const { Email, Password,Role } = req.body;
+
   let existingUser;
 
   try {
-    existingUser = await User.findOne({ Email });
+    existingUser = await User.findOne({ Email,Role });
   } catch (e) {
     console.log(e);
   }
+  console.log(existingUser);
+
   if (!existingUser) {
     return res
       .status(202)
@@ -75,7 +79,7 @@ const logIn = async (req, res, next) => {
       .json({ success: false, message: "Incorrect Password!" });
   }
 
-  return res.status(200).json({ success: true, user: existingUser });
+  return res.status(200).json({ success: true, user: {Email:existingUser.Email,Role:existingUser.Role,Id:existingUser._id,Name:existingUser.Name} });
 };
 
 module.exports = { getAllUser, logIn, signUp };

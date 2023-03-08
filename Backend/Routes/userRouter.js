@@ -4,6 +4,6 @@ const userRouter = express.Router();
 const {getAllUser , logIn , signUp} = require("../Controller/UserController");
 
 userRouter.get("/",getAllUser);
-userRouter.post("/login", logIn);
+userRouter.post("/signin", logIn);
 userRouter.post("/signup",signUp);
 module.exports = userRouter;
