@@ -1,0 +1,41 @@
+Compony
+	-ComponyName
+  -CompanyId
+	-Compony_Location
+	-Compony_discription
+	-Qualification
+	-Eligibility_Criteria
+	-Compony_Website
+	-Compony_Email
+JobRole
+    -Compnay
+		-Role_Title
+		-Role_Discription
+		-Role_Qualification_Eligibility
+		-Role_Degree_Required
+		-Role_CTC
+		-Role_InHand
+		-Role_VariablePay
+		-Location
+		-Interview_Rounds
+		-Deadline
+		-Bond_year
+		-Bond_Secuirty
+		-Internship
+			-Internship_Period
+			-Stidend
+		-Additional_Info
+
+collection : companies
+						 jobRole
+
+
+
+
+
+
+Stduent Path : /student
+
+		/home : All job notifications
+		/profile : Student Profile
+		/

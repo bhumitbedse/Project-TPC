@@ -19,7 +19,7 @@ const getAllAdmins = async (req, res, next) => {
 
 const addNewAdmin = async (req, res, next) => {
   res.set("Access-Control-Allow-Origin", "*");
-  let { Email, Password, Name, Designation, Mobile } = req.body;
+  const { Email, Password, Name, Designation, Mobile } = req.body;
 
   const UserType = "Admin";
   let user;
