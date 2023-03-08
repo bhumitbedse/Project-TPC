@@ -5,13 +5,16 @@ const User = new Schema({
     Email:{
         type: String,
     },
+    Name :{
+        type:String,
+    },
     Password:{
         type :String,
     },
-    UserType: {
+    Role: {
         type: String,
         required: true,
-        enum: ["Admin", "Student","TPC"]
+        enum: ['Admin', 'TPC Cordinator','Student']
     }
 });
 

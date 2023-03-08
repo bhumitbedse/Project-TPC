@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use(cors({
-    origin: ["http://localhost:5000"],
+    origin: ["http://localhost:4200"],
     methods: ["GET","POST","PUT","DELETE"],
     credentials: true,
   }))
