@@ -19,10 +19,11 @@ const getAllAdmins = async (req, res, next) => {
 
 const addNewAdmin = async (req, res, next) => {
   res.set("Access-Control-Allow-Origin", "*");
-  const { Email, Password, Name, Designation, Mobile } = req.body;
+  let { Email, Password, Name, Designation, Mobile } = req.body;
 
-  const UserType = "Admin";
+  const Role = "Admin";
   let user;
+  let EncrptPassword;
   try {
     let existUser = await User.findOne({ Email: Email }).exec();
     //if already exist then not create
@@ -33,25 +34,28 @@ const addNewAdmin = async (req, res, next) => {
     }
 
     //encrypt password
-    let EncrptPassword = bcrypt.hashSync(Password);
+    EncrptPassword = bcrypt.hashSync(Password);
+    Password = EncrptPassword;
     const newUser = new User({
       Email,
-      EncrptPassword,
-      UserType,
+      Name,
+      Password,
+      Role,
     });
 
     const session = await mongoose.startSession();
     session.startTransaction();
     user = await newUser.save();
     const UserID = user._id;
-    console.log("ID : "+UserID);
+    console.log("ID : " + UserID);
+    console.log("Pass: " + EncrptPassword);
     const newAdmin = new Admin({
       Email,
-      EncrptPassword,
+      Password,
       Name,
       Designation,
       Mobile,
-      UserID
+      UserID,
     });
     await newAdmin.save();
     session.commitTransaction();
@@ -81,7 +85,7 @@ const getAdminById = async (req, res, next) => {
   let admin;
   console.log("AdminID:" + adminID);
   try {
-    admin = await Admin.find({ userId: adminID });
+    admin = await Admin.find({ _id: adminID });
   } catch (e) {
     console.log("Exception: " + e);
     return res.status(400).json({
@@ -93,23 +97,44 @@ const getAdminById = async (req, res, next) => {
   }
 
   if (!admin) return res.status(500).json({ message: "Not Found !!" });
-  return res.status(200).json({ success: true, admin });
+  return res.status(200).json({
+    success: true,
+    response: {
+      code: "Admin Details",
+      data: admin,
+    },
+  });
 };
 
 const updateAdmin = async (req, res, next) => {
   res.set("Access-Control-Allow-Origin", "*");
-  const { adminid, Email, Password, Name, Designation, Mobile } = req.body;
-
+  let { Email, Password, Name, Designation, Mobile, UserID } = req.body;
+  let adminID = req.params.id;
+  console.log("Admin: " + adminID);
+  let existingadmin = Admin.findOne({ _id: adminID });
+  let EncrptPassword;
+  if (existingadmin && existingadmin.Password !== Password) {
+    EncrptPassword = bcrypt.hashSync(Password);
+    console.log("Pass Updated : ", EncrptPassword);
+    Password = EncrptPassword;
+  }
+  const update = {
+    Email,
+    Password,
+    Name,
+    Designation,
+    Mobile
+  };
+  let Role = "Admin";
+  const updateUser = {
+    Email,
+    Name,
+    Password,
+    Role
+  };
   try {
-    const update = {
-      Email,
-      Password,
-      Name,
-      Designation,
-      Mobile,
-    };
-
-    await Admin.findOneAndUpdate({ userId: adminid }, update);
+    await User.findOneAndUpdate({ _id: UserID }, updateUser);
+    await Admin.findOneAndUpdate({ _id: adminID }, update);
   } catch (error) {
     console.log(error);
     return res.status(400).json({
@@ -123,7 +148,7 @@ const updateAdmin = async (req, res, next) => {
     success: true,
     response: {
       code: "Admin Details Updated Successfully !!",
-      data: {},
+      data: update,
     },
   });
 };

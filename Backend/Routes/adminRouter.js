@@ -5,6 +5,6 @@ const {getAllAdmins , addNewAdmin , getAdminById , updateAdmin} = require("../Co
 adminRouter.get("/",getAllAdmins);
 adminRouter.post("/addNew",addNewAdmin);
 adminRouter.get("/getById/:id",getAdminById);
-adminRouter.post("/update",updateAdmin);
+adminRouter.post("/update/:id",updateAdmin);
 
 module.exports = adminRouter;

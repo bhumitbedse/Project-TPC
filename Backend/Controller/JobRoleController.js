@@ -2,18 +2,17 @@ const JobRole = require("../Models/JobRole");
 const mongoose = require("mongoose");
 
 const getAllJobRoles = async (req, res, next) => {
-  let roles;
+  let role;
   try {
-    roles = await JobRole.find();
+    role = await JobRole.find();
   } catch (err) {
     console.log(err);
   }
-  if (!roles) {
+  if (!role) {
     return res.status(404).json({ message: "JobRole are not found" });
   }
-  return res.status(200).json({ roles });
+  return res.status(200).json({ role });
 };
-
 
 const addNewJobRole = async (req, res, next) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -106,7 +105,6 @@ const getRoleById = async (req, res, next) => {
 const updateRole = async (req, res, next) => {
   res.set("Access-Control-Allow-Origin", "*");
   const {
-    RoleID,
     Compony,
     Role_Title,
     Role_Description,
@@ -124,27 +122,26 @@ const updateRole = async (req, res, next) => {
     Additional_Info,
     Attachments,
   } = req.body;
-
+  let RoleID = req.params.id;
+  const update = {
+    Compony,
+    Role_Title,
+    Role_Description,
+    Role_Qualification,
+    Role_Eligibility,
+    Role_CTC,
+    Role_InHand,
+    Role_VariablePay,
+    Location,
+    Interview_Rounds_details,
+    Deadline,
+    Bond_year,
+    Bond_Secuirty,
+    Internship,
+    Additional_Info,
+    Attachments
+  };
   try {
-    const update = {
-      Compony,
-      Role_Title,
-      Role_Description,
-      Role_Qualification,
-      Role_Eligibility,
-      Role_CTC,
-      Role_InHand,
-      Role_VariablePay,
-      Location,
-      Interview_Rounds_details,
-      Deadline,
-      Bond_year,
-      Bond_Secuirty,
-      Internship,
-      Additional_Info,
-      Attachments
-    };
-
     await JobRole.findOneAndUpdate({ _id: RoleID }, update);
   } catch (error) {
     console.log(error);
@@ -188,7 +185,6 @@ const deleteRole = async (req, res, next) => {
     },
   });
 };
-
 module.exports = {
   getAllJobRoles,
   addNewJobRole,

@@ -15,7 +15,7 @@ const Admin = new Schema({
     type: String,
   },
   Mobile: {
-    type: Number,
+    type: String,
   },
   UserID: {
     type: Schema.Types.ObjectId,

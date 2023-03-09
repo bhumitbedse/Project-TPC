@@ -11,7 +11,7 @@ const {
 roleRouter.get("/", getAllJobRoles);
 roleRouter.post("/addNew", addNewJobRole);
 roleRouter.get("/getById/:id", getRoleById);
-roleRouter.post('/update',updateRole);
+roleRouter.put('/update/:id',updateRole);
 roleRouter.delete('/delete/:id',deleteRole);
 
 module.exports = roleRouter;
